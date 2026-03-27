@@ -1,0 +1,42 @@
+<div class="mt-8 space-y-4">
+  <div class="flex items-center gap-2 mb-2">
+    <button onclick="document.getElementById('sqlPanelContent').classList.toggle('hidden')" class="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition text-sm font-medium">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+      Behind the Scenes (<%= queries.length %> quer<%= queries.length === 1 ? 'y' : 'ies' %>)
+    </button>
+  </div>
+  <div id="sqlPanelContent" class="space-y-3">
+    <% queries.forEach(function(q, i) { %>
+      <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+          <div class="flex items-center gap-3">
+            <span class="sql-badge badge-<%= q.feature.toLowerCase().includes('view') ? 'view' : q.feature.toLowerCase().includes('trigger') ? 'trigger' : q.feature.toLowerCase().includes('procedure') ? 'procedure' : q.feature.toLowerCase().includes('index') ? 'index' : q.feature.toLowerCase().includes('dcl') ? 'dcl' : 'query' %>"><%= q.feature %></span>
+            <span class="text-sm text-gray-600"><%= q.description %></span>
+          </div>
+          <div class="flex items-center gap-4 text-xs text-gray-500">
+            <span><%= q.duration_ms %>ms</span>
+            <span><%= q.rowCount %> row<%= q.rowCount !== 1 ? 's' : '' %></span>
+          </div>
+        </div>
+        <div class="p-4">
+          <pre class="!bg-[#1e1e2e] !rounded-lg !text-sm !p-4 overflow-x-auto"><code class="language-sql"><%= q.sql %></code></pre>
+          <% if (q.params && Object.keys(q.params).length > 0) { %>
+            <div class="mt-3 flex flex-wrap gap-2">
+              <span class="text-xs text-gray-500 font-medium">Parameters:</span>
+              <% Object.entries(q.params).forEach(function([k,v]) { %>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs">
+                  @<%= k %> = <span class="font-mono"><%= v %></span>
+                </span>
+              <% }) %>
+            </div>
+          <% } %>
+          <% if (q.error) { %>
+            <div class="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+              <strong>Error:</strong> <%= q.error %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>

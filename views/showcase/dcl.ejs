@@ -1,0 +1,159 @@
+<div>
+  <h1 class="text-2xl font-bold text-gray-800 mb-2">Access Control (DCL)</h1>
+  <p class="text-sm text-gray-500 mb-6">Database roles, users, and permissions using GRANT/DENY/REVOKE</p>
+
+  <!-- Role Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm border-2 border-purple-200 p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+          <span class="text-purple-600 font-bold">A</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">db_admin</h3>
+          <p class="text-xs text-gray-500">dental_admin login</p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600 mb-3">Member of <strong>db_owner</strong> role - full control over all database objects.</p>
+      <div class="text-xs text-purple-600 font-medium">FULL ACCESS</div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border-2 border-blue-200 p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+          <span class="text-blue-600 font-bold">D</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">dentist_user</h3>
+          <p class="text-xs text-gray-500">dental_doctor login</p>
+        </div>
+      </div>
+      <div class="text-sm space-y-1 mb-3">
+        <p class="text-green-600">SELECT/INSERT/UPDATE: patients, medical_history, visits, treatments, treatment_teeth</p>
+        <p class="text-blue-600">SELECT: services, appointments, invoices</p>
+        <p class="text-red-600">DENY DELETE: patients, medical_history, visits, treatments</p>
+      </div>
+      <div class="text-xs text-blue-600 font-medium">CLINICAL ACCESS</div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border-2 border-green-200 p-6">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+          <span class="text-green-600 font-bold">R</span>
+        </div>
+        <div>
+          <h3 class="font-semibold text-gray-800">receptionist_user</h3>
+          <p class="text-xs text-gray-500">dental_receptionist login</p>
+        </div>
+      </div>
+      <div class="text-sm space-y-1 mb-3">
+        <p class="text-green-600">SELECT/INSERT/UPDATE: appointments, invoices, payments</p>
+        <p class="text-blue-600">SELECT: patients, services, users</p>
+        <p class="text-red-600">DENY DELETE: appointments, invoices, payments</p>
+        <p class="text-red-600">DENY UPDATE: patients</p>
+      </div>
+      <div class="text-xs text-green-600 font-medium">SCHEDULING & BILLING</div>
+    </div>
+  </div>
+
+  <!-- Database Users -->
+  <% if (dbUsers.length > 0) { %>
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">Database Users</h3>
+      <p class="text-sm text-gray-500 mt-1">From <code class="bg-gray-100 px-1 rounded">sys.database_principals</code></p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roles</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% dbUsers.forEach(function(u) { %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium"><%= u.name %></td>
+              <td class="px-6 py-4"><%= u.type_desc %></td>
+              <td class="px-6 py-4"><%= u.roles || '-' %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Permissions Matrix -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">Permissions Matrix</h3>
+      <p class="text-sm text-gray-500 mt-1">From <code class="bg-gray-100 px-1 rounded">sys.database_permissions</code></p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">State</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Permission</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Object</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% permissions.forEach(function(p) { %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium"><%= p.grantee %></td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 rounded text-xs font-medium
+                  <%= p.state_desc === 'GRANT' ? 'bg-green-100 text-green-700' :
+                     p.state_desc === 'DENY' ? 'bg-red-100 text-red-700' :
+                     'bg-yellow-100 text-yellow-700' %>"><%= p.state_desc %></span>
+              </td>
+              <td class="px-6 py-4"><%= p.permission_name %></td>
+              <td class="px-6 py-4 font-mono text-sm"><%= p.object_name || p.class_desc %></td>
+            </tr>
+          <% }) %>
+          <% if (permissions.length === 0) { %>
+            <tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No permissions found - ensure DCL statements have been executed on the database</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DCL SQL -->
+  <div class="mt-6 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">DCL Statements Used</h3>
+    <pre class="!bg-[#1e1e2e] !rounded-lg !text-sm !p-4 overflow-x-auto"><code class="language-sql">-- CREATE LOGINS
+CREATE LOGIN dental_admin WITH PASSWORD = 'Admin@Dental2024!';
+CREATE LOGIN dental_doctor WITH PASSWORD = 'Doctor@Dental2024!';
+CREATE LOGIN dental_receptionist WITH PASSWORD = 'Recept@Dental2024!';
+
+-- CREATE DATABASE USERS
+CREATE USER db_admin FOR LOGIN dental_admin;
+CREATE USER dentist_user FOR LOGIN dental_doctor;
+CREATE USER receptionist_user FOR LOGIN dental_receptionist;
+
+-- ADMIN: Full control
+ALTER ROLE db_owner ADD MEMBER db_admin;
+
+-- DENTIST: Clinical access
+GRANT SELECT, INSERT, UPDATE ON patients TO dentist_user;
+GRANT SELECT, INSERT, UPDATE ON medical_history TO dentist_user;
+GRANT SELECT, INSERT, UPDATE ON visits TO dentist_user;
+GRANT SELECT, INSERT, UPDATE ON treatments TO dentist_user;
+GRANT SELECT, INSERT, UPDATE ON treatment_teeth TO dentist_user;
+DENY DELETE ON patients TO dentist_user;
+DENY DELETE ON medical_history TO dentist_user;
+
+-- RECEPTIONIST: Scheduling & billing
+GRANT SELECT, INSERT, UPDATE ON appointments TO receptionist_user;
+GRANT SELECT, INSERT, UPDATE ON invoices TO receptionist_user;
+GRANT SELECT, INSERT, UPDATE ON payments TO receptionist_user;
+DENY DELETE ON appointments TO receptionist_user;
+DENY UPDATE ON patients TO receptionist_user;</code></pre>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div>
+  <a href="/users" class="text-sm text-blue-600 hover:underline">&larr; Back to Users</a>
+  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-6"><%= user ? 'Edit' : 'New' %> User</h1>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-2xl">
+    <form action="<%= user ? '/users/' + user.id + '?_method=PUT' : '/users' %>" method="POST">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+          <input type="text" name="full_name" value="<%= user ? user.full_name : '' %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+          <input type="email" name="email" value="<%= user ? user.email : '' %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
+          <select name="role" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+            <option value="dentist" <%= user && user.role === 'dentist' ? 'selected' : '' %>>Dentist</option>
+            <option value="assistant" <%= user && user.role === 'assistant' ? 'selected' : '' %>>Assistant</option>
+            <option value="admin" <%= user && user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+          <input type="text" name="phone" value="<%= user ? (user.phone || '') : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Subscription Plan</label>
+          <select name="subscription_plan" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+            <option value="">None</option>
+            <option value="basic" <%= user && user.subscription_plan === 'basic' ? 'selected' : '' %>>Basic</option>
+            <option value="pro" <%= user && user.subscription_plan === 'pro' ? 'selected' : '' %>>Pro</option>
+            <option value="enterprise" <%= user && user.subscription_plan === 'enterprise' ? 'selected' : '' %>>Enterprise</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-6 flex gap-3">
+        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium"><%= user ? 'Update' : 'Create' %></button>
+        <a href="/users" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<div>
+  <a href="/reports" class="text-sm text-blue-600 hover:underline">&larr; Back to Reports</a>
+  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-2"><%= title %></h1>
+  <p class="text-sm text-gray-500 mb-6">
+    Data from <span class="sql-badge badge-view">VIEW</span>
+    <%= reportType === 'dentist' ? 'vw_RevenueByDentist' : 'vw_MonthlyRevenue' %>
+  </p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <canvas id="reportChart" height="250"></canvas>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50">
+            <tr>
+              <% if (data.length > 0) { %>
+                <% Object.keys(data[0]).forEach(function(key) { %>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= key.replace(/_/g, ' ') %></th>
+                <% }) %>
+              <% } %>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% data.forEach(function(row) { %>
+              <tr class="hover:bg-gray-50">
+                <% Object.values(row).forEach(function(val) { %>
+                  <td class="px-4 py-3"><%= typeof val === 'number' ? (val % 1 !== 0 ? '$' + val.toFixed(2) : val) : (val || '-') %></td>
+                <% }) %>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const data = <%- JSON.stringify(data) %>;
+  const reportType = '<%= reportType %>';
+
+  if (data.length > 0 && document.getElementById('reportChart')) {
+    if (reportType === 'dentist') {
+      new Chart(document.getElementById('reportChart'), {
+        type: 'bar',
+        data: {
+          labels: data.map(d => d.dentist_name || d.full_name || 'Unknown'),
+          datasets: [{
+            label: 'Total Billed',
+            data: data.map(d => d.total_billed || d.total_amount || 0),
+            backgroundColor: '#3b82f6', borderRadius: 8
+          }, {
+            label: 'Collected',
+            data: data.map(d => d.total_collected || d.amount_collected || 0),
+            backgroundColor: '#10b981', borderRadius: 8
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    } else {
+      new Chart(document.getElementById('reportChart'), {
+        type: 'line',
+        data: {
+          labels: data.map(d => d.revenue_month || d.month || 'Unknown'),
+          datasets: [{
+            label: 'Revenue',
+            data: data.map(d => d.total_revenue || d.total || 0),
+            borderColor: '#3b82f6', backgroundColor: '#3b82f620',
+            fill: true, tension: 0.4
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    }
+  }
+});
+</script>

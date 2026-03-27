@@ -1,0 +1,57 @@
+<div>
+  <a href="/patients" class="text-sm text-blue-600 hover:underline">&larr; Back to Patients</a>
+  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-6"><%= patient ? 'Edit' : 'New' %> Patient</h1>
+
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-2xl">
+    <form action="<%= patient ? '/patients/' + patient.id + '?_method=PUT' : '/patients' %>" method="POST">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+          <input type="text" name="first_name" value="<%= patient ? patient.first_name : '' %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+          <input type="text" name="last_name" value="<%= patient ? patient.last_name : '' %>" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Dentist *</label>
+          <select name="dentist_id" required class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+            <option value="">Select dentist...</option>
+            <% dentists.forEach(function(d) { %>
+              <option value="<%= d.id %>" <%= patient && patient.dentist_id == d.id ? 'selected' : '' %>><%= d.full_name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+          <input type="text" name="phone" value="<%= patient ? (patient.phone || '') : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input type="email" name="email" value="<%= patient ? (patient.email || '') : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+          <input type="date" name="date_of_birth" value="<%= patient && patient.date_of_birth ? new Date(patient.date_of_birth).toISOString().split('T')[0] : '' %>" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+          <select name="gender" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500">
+            <option value="">Select...</option>
+            <option value="male" <%= patient && patient.gender === 'male' ? 'selected' : '' %>>Male</option>
+            <option value="female" <%= patient && patient.gender === 'female' ? 'selected' : '' %>>Female</option>
+            <option value="other" <%= patient && patient.gender === 'other' ? 'selected' : '' %>>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+        <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500"><%= patient ? (patient.notes || '') : '' %></textarea>
+      </div>
+      <div class="mt-6 flex gap-3">
+        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium"><%= patient ? 'Update' : 'Create' %> Patient</button>
+        <a href="/patients" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

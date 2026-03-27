@@ -1,0 +1,112 @@
+<div>
+  <a href="/visits" class="text-sm text-blue-600 hover:underline">&larr; Back to Visits</a>
+  <% if (visit) { %>
+  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-6">Visit #<%= visit.id %> - <%= visit.first_name %> <%= visit.last_name %></h1>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Visit Information</h3>
+      <dl class="space-y-3 text-sm">
+        <div><dt class="text-gray-500">Date</dt><dd class="font-medium"><%= new Date(visit.visit_date).toLocaleString() %></dd></div>
+        <div><dt class="text-gray-500">Dentist</dt><dd class="font-medium"><%= visit.dentist_name %></dd></div>
+        <div><dt class="text-gray-500">Status</dt><dd><span class="px-2 py-1 rounded-full text-xs font-medium <%= visit.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' %>"><%= visit.status %></span></dd></div>
+        <div><dt class="text-gray-500">Chief Complaint</dt><dd class="font-medium"><%= visit.chief_complaint || '-' %></dd></div>
+        <div><dt class="text-gray-500">Diagnosis</dt><dd class="font-medium"><%= visit.diagnosis || '-' %></dd></div>
+      </dl>
+      <form action="/visits/<%= visit.id %>?_method=PUT" method="POST" class="mt-4 pt-4 border-t border-gray-200 flex gap-2">
+        <select name="status" class="px-3 py-1.5 border rounded-lg text-sm">
+          <option value="in_progress" <%= visit.status === 'in_progress' ? 'selected' : '' %>>In Progress</option>
+          <option value="completed" <%= visit.status === 'completed' ? 'selected' : '' %>>Completed</option>
+        </select>
+        <input type="hidden" name="chief_complaint" value="<%= visit.chief_complaint || '' %>">
+        <input type="hidden" name="diagnosis" value="<%= visit.diagnosis || '' %>">
+        <button class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Update Status</button>
+      </form>
+    </div>
+
+    <!-- Add Treatment -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Add Treatment</h3>
+      <form action="/visits/<%= visit.id %>/treatments" method="POST">
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Service *</label>
+            <select name="service_id" required class="w-full px-3 py-2 border rounded-lg text-sm">
+              <% services.forEach(function(s) { %>
+                <option value="<%= s.id %>" data-cost="<%= s.default_cost %>"><%= s.name %> ($<%= Number(s.default_cost).toFixed(2) %>)</option>
+              <% }) %>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Cost ($) *</label>
+            <input type="number" step="0.01" name="cost" required class="w-full px-3 py-2 border rounded-lg text-sm">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs text-gray-600 mb-1">Tooth # (1-32)</label>
+              <input type="number" name="tooth_numbers" min="1" max="32" class="w-full px-3 py-2 border rounded-lg text-sm">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-600 mb-1">Surface</label>
+              <select name="surfaces" class="w-full px-3 py-2 border rounded-lg text-sm">
+                <option value="">N/A</option>
+                <option value="mesial">Mesial</option>
+                <option value="distal">Distal</option>
+                <option value="occlusal">Occlusal</option>
+                <option value="buccal">Buccal</option>
+                <option value="lingual">Lingual</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-600 mb-1">Notes</label>
+            <input type="text" name="notes" class="w-full px-3 py-2 border rounded-lg text-sm">
+          </div>
+          <button class="w-full px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700">Add Treatment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Treatments List -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-semibold text-gray-800">Treatments</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Service</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Teeth</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% treatments.forEach(function(t) { %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium"><%= t.service_name %></td>
+              <td class="px-6 py-4 capitalize"><%= t.category %></td>
+              <td class="px-6 py-4">$<%= Number(t.cost).toFixed(2) %></td>
+              <td class="px-6 py-4"><%= t.teeth_info || '-' %></td>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 rounded-full text-xs font-medium
+                  <%= t.status === 'completed' ? 'bg-green-100 text-green-700' :
+                     t.status === 'in_progress' ? 'bg-yellow-100 text-yellow-700' :
+                     'bg-gray-100 text-gray-700' %>"><%= t.status %></span>
+              </td>
+            </tr>
+          <% }) %>
+          <% if (treatments.length === 0) { %>
+            <tr><td colspan="5" class="px-6 py-8 text-center text-gray-400">No treatments yet</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% } else { %>
+    <div class="text-center py-12 text-gray-400">Visit not found</div>
+  <% } %>
+</div>
