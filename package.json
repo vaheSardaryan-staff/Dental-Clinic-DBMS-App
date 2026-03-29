@@ -1,5 +1,5 @@
 {
-  "name": "doq-dental-clinic",
+  "name": "dental-clinic",
   "version": "1.0.0",
   "description": "Dental Clinic Management System - Database Showcase",
   "main": "server.js",

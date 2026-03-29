@@ -1,30 +1,30 @@
 <div>
-  <h1 class="text-2xl font-bold text-gray-800 mb-2">Indexes Showcase</h1>
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Indexes Showcase</h1>
   <p class="text-sm text-gray-500 mb-6">11 custom indexes for query performance optimization</p>
 
   <!-- Index List -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-    <div class="px-6 py-4 border-b border-gray-200">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
       <h3 class="text-lg font-semibold text-gray-800">All Custom Indexes</h3>
       <p class="text-sm text-gray-500 mt-1">Queried from <code class="bg-gray-100 px-1 rounded">sys.indexes</code> + <code class="bg-gray-100 px-1 rounded">sys.index_columns</code></p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50/80">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Index Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Table</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Column</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Index Name</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Table</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Column</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Type</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100">
           <% indexes.forEach(function(idx) { %>
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 font-mono text-sm text-blue-600"><%= idx.index_name %></td>
+            <tr class="hover:bg-indigo-50/30 transition">
+              <td class="px-6 py-4 font-mono text-sm text-indigo-600"><%= idx.index_name %></td>
               <td class="px-6 py-4"><%= idx.table_name %></td>
               <td class="px-6 py-4 font-mono"><%= idx.column_name %></td>
-              <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs"><%= idx.type_desc %></span></td>
+              <td class="px-6 py-4"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs"><%= idx.type_desc %></span></td>
             </tr>
           <% }) %>
         </tbody>
@@ -33,28 +33,28 @@
   </div>
 
   <!-- Index Usage Stats -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
-    <div class="px-6 py-4 border-b border-gray-200">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="px-6 py-5 border-b border-gray-100">
       <h3 class="text-lg font-semibold text-gray-800">Index Usage Statistics</h3>
       <p class="text-sm text-gray-500 mt-1">From <code class="bg-gray-100 px-1 rounded">sys.dm_db_index_usage_stats</code></p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50/80">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Table</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Index</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Seeks</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Scans</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lookups</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Updates</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Table</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Index</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Seeks</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Scans</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Lookups</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Updates</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100">
           <% usage.forEach(function(u) { %>
-            <tr class="hover:bg-gray-50">
+            <tr class="hover:bg-indigo-50/30 transition">
               <td class="px-6 py-4"><%= u.table_name %></td>
-              <td class="px-6 py-4 font-mono text-sm text-blue-600"><%= u.index_name %></td>
+              <td class="px-6 py-4 font-mono text-sm text-indigo-600"><%= u.index_name %></td>
               <td class="px-6 py-4"><%= u.user_seeks %></td>
               <td class="px-6 py-4"><%= u.user_scans %></td>
               <td class="px-6 py-4"><%= u.user_lookups %></td>
@@ -70,32 +70,32 @@
   </div>
 
   <!-- Explanation -->
-  <div class="bg-blue-50 rounded-xl border border-blue-200 p-6">
-    <h3 class="text-lg font-semibold text-blue-800 mb-3">How Indexes Help</h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-blue-700">
+  <div class="bg-indigo-50 rounded-2xl border border-indigo-200 p-6">
+    <h3 class="text-lg font-semibold text-indigo-800 mb-3">How Indexes Help</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-indigo-700">
       <div>
         <strong>IX_patients_dentist</strong>
-        <p class="text-blue-600 mt-1">Speeds up: "Show all patients for Dr. Smith" - filters by dentist_id</p>
+        <p class="text-indigo-600 mt-1">Speeds up: "Show all patients for Dr. Smith" - filters by dentist_id</p>
       </div>
       <div>
         <strong>IX_appointments_patient / IX_appointments_dentist</strong>
-        <p class="text-blue-600 mt-1">Speeds up: appointment lookups per patient or per dentist</p>
+        <p class="text-indigo-600 mt-1">Speeds up: appointment lookups per patient or per dentist</p>
       </div>
       <div>
         <strong>IX_appointments_start</strong>
-        <p class="text-blue-600 mt-1">Speeds up: "Show today's appointments" - date range queries</p>
+        <p class="text-indigo-600 mt-1">Speeds up: "Show today's appointments" - date range queries</p>
       </div>
       <div>
         <strong>IX_invoices_status</strong>
-        <p class="text-blue-600 mt-1">Speeds up: "Show all overdue invoices" - status filtering</p>
+        <p class="text-indigo-600 mt-1">Speeds up: "Show all overdue invoices" - status filtering</p>
       </div>
       <div>
         <strong>IX_payments_invoice</strong>
-        <p class="text-blue-600 mt-1">Speeds up: "Total payments for invoice #123" - payment aggregation</p>
+        <p class="text-indigo-600 mt-1">Speeds up: "Total payments for invoice #123" - payment aggregation</p>
       </div>
       <div>
         <strong>IX_treatments_visit / IX_treatment_teeth_treat</strong>
-        <p class="text-blue-600 mt-1">Speeds up: treatment and teeth lookups per visit</p>
+        <p class="text-indigo-600 mt-1">Speeds up: treatment and teeth lookups per visit</p>
       </div>
     </div>
   </div>

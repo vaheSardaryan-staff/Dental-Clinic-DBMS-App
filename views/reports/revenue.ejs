@@ -1,30 +1,30 @@
 <div>
-  <a href="/reports" class="text-sm text-blue-600 hover:underline">&larr; Back to Reports</a>
-  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-2"><%= title %></h1>
+  <a href="/reports" class="text-sm text-indigo-600 hover:underline">&larr; Back to Reports</a>
+  <h1 class="text-2xl font-bold text-gray-900 mt-2 mb-2"><%= title %></h1>
   <p class="text-sm text-gray-500 mb-6">
     Data from <span class="sql-badge badge-view">VIEW</span>
     <%= reportType === 'dentist' ? 'vw_RevenueByDentist' : 'vw_MonthlyRevenue' %>
   </p>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <canvas id="reportChart" height="250"></canvas>
     </div>
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="w-full text-sm">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50/80">
             <tr>
               <% if (data.length > 0) { %>
                 <% Object.keys(data[0]).forEach(function(key) { %>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase"><%= key.replace(/_/g, ' ') %></th>
+                  <th class="px-4 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider"><%= key.replace(/_/g, ' ') %></th>
                 <% }) %>
               <% } %>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-gray-100">
             <% data.forEach(function(row) { %>
-              <tr class="hover:bg-gray-50">
+              <tr class="hover:bg-indigo-50/30 transition">
                 <% Object.values(row).forEach(function(val) { %>
                   <td class="px-4 py-3"><%= typeof val === 'number' ? (val % 1 !== 0 ? '$' + val.toFixed(2) : val) : (val || '-') %></td>
                 <% }) %>
@@ -51,11 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
           datasets: [{
             label: 'Total Billed',
             data: data.map(d => d.total_billed || d.total_amount || 0),
-            backgroundColor: '#3b82f6', borderRadius: 8
+            backgroundColor: '#6366f1', borderRadius: 8
           }, {
             label: 'Collected',
             data: data.map(d => d.total_collected || d.amount_collected || 0),
-            backgroundColor: '#10b981', borderRadius: 8
+            backgroundColor: '#a78bfa', borderRadius: 8
           }]
         },
         options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
           datasets: [{
             label: 'Revenue',
             data: data.map(d => d.total_revenue || d.total || 0),
-            borderColor: '#3b82f6', backgroundColor: '#3b82f620',
+            borderColor: '#6366f1', backgroundColor: '#6366f120',
             fill: true, tension: 0.4
           }]
         },

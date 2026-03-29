@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %>DoQ Dental Clinic</title>
+  <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %>Dental Clinic</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
@@ -15,52 +15,59 @@
       theme: {
         extend: {
           colors: {
-            dental: { 50:'#eff8ff',100:'#dbeffe',200:'#bfe0fe',300:'#93cbfd',400:'#60adfa',500:'#3b8ef6',600:'#2570eb',700:'#1d5bd8',800:'#1a4baf' }
+            brand: { 50:'#eef2ff',100:'#e0e7ff',200:'#c7d2fe',300:'#a5b4fc',400:'#818cf8',500:'#6366f1',600:'#4f46e5',700:'#4338ca',800:'#3730a3',900:'#312e81' }
           }
         }
       }
     }
   </script>
   <style>
-    .sidebar-link.active { background: rgba(59,130,246,0.15); color: #3b82f6; border-right: 3px solid #3b82f6; }
+    .sidebar-link.active { background: rgba(99,102,241,0.15); color: #818cf8; border-right: 3px solid #818cf8; }
     .sql-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 9999px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-    .badge-view { background: #7c3aed20; color: #7c3aed; }
-    .badge-trigger { background: #ea580c20; color: #ea580c; }
-    .badge-procedure { background: #16a34a20; color: #16a34a; }
-    .badge-index { background: #2563eb20; color: #2563eb; }
-    .badge-query { background: #64748b20; color: #64748b; }
-    .badge-dcl { background: #dc265220; color: #dc2652; }
-    .badge-dml { background: #ca8a0420; color: #ca8a04; }
+    .badge-view { background: #7c3aed18; color: #7c3aed; }
+    .badge-trigger { background: #f59e0b18; color: #d97706; }
+    .badge-procedure { background: #10b98118; color: #059669; }
+    .badge-index { background: #6366f118; color: #4f46e5; }
+    .badge-query { background: #64748b18; color: #475569; }
+    .badge-dcl { background: #ec489918; color: #db2777; }
+    .badge-dml { background: #f9731618; color: #ea580c; }
 
     /* SQL Slide-over panel */
     #sqlOverlay { transition: opacity 0.3s ease; }
-    #sqlDrawer { transition: transform 0.3s ease; }
+    #sqlDrawer { transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
     #sqlDrawer.closed { transform: translateX(100%); }
 
     /* Floating SQL button pulse */
     @keyframes pulse-ring {
-      0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.5); }
-      70% { box-shadow: 0 0 0 10px rgba(59,130,246,0); }
-      100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); }
+      0% { box-shadow: 0 0 0 0 rgba(99,102,241,0.5); }
+      70% { box-shadow: 0 0 0 12px rgba(99,102,241,0); }
+      100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
     }
     .sql-fab-pulse { animation: pulse-ring 2s ease-out infinite; }
+
+    /* Glass effect */
+    .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50/80 min-h-screen">
   <%- include('partials/navbar') %>
   <div class="flex">
     <%- include('partials/sidebar') %>
-    <main class="flex-1 ml-64 mt-16 p-6">
+    <main class="flex-1 ml-64 mt-16 p-8">
       <% if (typeof flash !== 'undefined' && flash.success) { %>
-        <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg flex items-center gap-2">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-          <%= flash.success %>
+        <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex items-center gap-3 shadow-sm">
+          <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          </div>
+          <span class="text-sm font-medium"><%= flash.success %></span>
         </div>
       <% } %>
       <% if (typeof flash !== 'undefined' && flash.error) { %>
-        <div class="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg flex items-center gap-2">
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 002 0V5zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
-          <%= flash.error %>
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-center gap-3 shadow-sm">
+          <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 002 0V5zm-1 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+          </div>
+          <span class="text-sm font-medium"><%= flash.error %></span>
         </div>
       <% } %>
       <%- body %>
@@ -68,7 +75,6 @@
   </div>
 
   <%
-    // Merge page queries + session queries from redirects
     const allQueries = [];
     if (typeof sessionQueries !== 'undefined' && sessionQueries.length > 0) {
       sessionQueries.forEach(q => { q._fromAction = true; allQueries.push(q); });
@@ -81,37 +87,37 @@
   <!-- Floating SQL Button -->
   <% if (allQueries.length > 0) { %>
   <button onclick="toggleSqlDrawer()" id="sqlFab"
-    class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg flex items-center justify-center sql-fab-pulse transition">
+    class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white rounded-2xl shadow-lg shadow-indigo-500/25 flex items-center justify-center sql-fab-pulse transition-all duration-200 hover:scale-105">
     <div class="text-center leading-none">
       <svg class="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
       <span class="text-[10px] font-bold mt-0.5 block">SQL</span>
     </div>
   </button>
-  <span class="fixed bottom-[72px] right-6 z-50 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow pointer-events-none">
+  <span class="fixed bottom-[72px] right-6 z-50 bg-rose-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-lg pointer-events-none">
     <%= allQueries.length %>
   </span>
 
   <!-- SQL Drawer Overlay -->
-  <div id="sqlOverlay" class="fixed inset-0 bg-black/30 z-[60] hidden" onclick="toggleSqlDrawer()"></div>
+  <div id="sqlOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden" onclick="toggleSqlDrawer()"></div>
 
   <!-- SQL Drawer Panel -->
-  <div id="sqlDrawer" class="fixed top-0 right-0 bottom-0 w-full max-w-2xl bg-white z-[70] shadow-2xl overflow-y-auto closed">
-    <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
+  <div id="sqlDrawer" class="fixed top-0 right-0 bottom-0 w-full max-w-2xl bg-white z-[70] shadow-2xl overflow-y-auto closed border-l border-gray-200">
+    <div class="sticky top-0 glass border-b border-gray-200/80 px-6 py-4 flex items-center justify-between z-10">
       <div>
-        <h2 class="text-lg font-bold text-gray-800">Behind the Scenes</h2>
+        <h2 class="text-lg font-bold text-gray-900">Behind the Scenes</h2>
         <p class="text-sm text-gray-500"><%= allQueries.length %> SQL operation<%= allQueries.length !== 1 ? 's' : '' %> executed</p>
       </div>
-      <button onclick="toggleSqlDrawer()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">
+      <button onclick="toggleSqlDrawer()" class="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="p-6 space-y-4">
       <% allQueries.forEach(function(q, i) { %>
-        <div class="border border-gray-200 rounded-xl overflow-hidden <%= q._fromAction ? 'ring-2 ring-blue-400' : '' %>">
-          <div class="flex items-center justify-between px-4 py-3 bg-gray-50 border-b border-gray-200">
+        <div class="border border-gray-200 rounded-xl overflow-hidden hover:shadow-md transition-shadow duration-200 <%= q._fromAction ? 'ring-2 ring-indigo-400/50' : '' %>">
+          <div class="flex items-center justify-between px-4 py-3 bg-gray-50/80 border-b border-gray-200">
             <div class="flex items-center gap-2 flex-wrap">
               <% if (q._fromAction) { %>
-                <span class="px-2 py-0.5 bg-blue-500 text-white text-[10px] font-bold rounded uppercase">Last Action</span>
+                <span class="px-2 py-0.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-[10px] font-bold rounded-full uppercase">Last Action</span>
               <% } %>
               <%
                 let badgeClass = 'badge-query';
@@ -126,7 +132,7 @@
               <span class="sql-badge <%= badgeClass %>"><%= q.feature %></span>
               <span class="text-xs text-gray-600"><%= q.description %></span>
             </div>
-            <div class="flex items-center gap-3 text-xs text-gray-500 flex-shrink-0">
+            <div class="flex items-center gap-3 text-xs text-gray-400 flex-shrink-0">
               <span class="font-mono"><%= q.duration_ms %>ms</span>
               <span><%= q.rowCount %> row<%= q.rowCount !== 1 ? 's' : '' %></span>
             </div>
@@ -135,17 +141,17 @@
             <pre class="!m-0 !p-0 !bg-transparent text-sm overflow-x-auto"><code class="language-sql"><%= q.sql %></code></pre>
           </div>
           <% if (q.params && Object.keys(q.params).length > 0) { %>
-            <div class="px-4 py-2 bg-gray-50 border-t border-gray-200 flex flex-wrap gap-2">
+            <div class="px-4 py-2.5 bg-indigo-50/50 border-t border-gray-200 flex flex-wrap gap-2">
               <span class="text-xs text-gray-500 font-medium">Params:</span>
               <% Object.entries(q.params).forEach(function([k,v]) { %>
-                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-mono">
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-100/60 text-indigo-700 rounded-md text-xs font-mono">
                   @<%= k %>=<%= v %>
                 </span>
               <% }) %>
             </div>
           <% } %>
           <% if (q.error) { %>
-            <div class="px-4 py-2 bg-red-50 border-t border-red-200 text-sm text-red-700">
+            <div class="px-4 py-2.5 bg-red-50 border-t border-red-200 text-sm text-red-700">
               <strong>Error:</strong> <%= q.error %>
             </div>
           <% } %>
@@ -171,7 +177,6 @@
         if (typeof Prism !== 'undefined') Prism.highlightAll();
       }
     }
-    // Auto-open if there are action queries from a redirect
     <% if (typeof sessionQueries !== 'undefined' && sessionQueries.length > 0) { %>
       document.addEventListener('DOMContentLoaded', function() { toggleSqlDrawer(); });
     <% } %>

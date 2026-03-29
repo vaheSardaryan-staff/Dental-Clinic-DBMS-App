@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
-    secret: 'doq-dental-clinic-2024',
+    secret: 'dental-clinic-2024',
     resave: false,
     saveUninitialized: true,
   })
@@ -66,5 +66,5 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`DoQ Dental Clinic running at http://localhost:${PORT}`);
+  console.log(`Dental Clinic running at http://localhost:${PORT}`);
 });

@@ -1,8 +1,11 @@
 <div>
-  <h1 class="text-2xl font-bold text-gray-800 mb-6">Payments</h1>
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Payments</h1>
+    <p class="text-sm text-gray-500 mt-1">Record and track patient payments</p>
+  </div>
 
   <!-- Add Payment -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
     <h3 class="text-lg font-semibold text-gray-800 mb-2">Record Payment</h3>
     <p class="text-sm text-gray-500 mb-4">
       Adding payment fires <span class="sql-badge badge-trigger">TRIGGER</span> trg_UpdateInvoiceStatus
@@ -11,7 +14,7 @@
     <form action="/billing/payments" method="POST" class="flex gap-3 items-end flex-wrap">
       <div>
         <label class="block text-xs text-gray-600 mb-1">Invoice *</label>
-        <select name="invoice_id" required class="px-3 py-2 border rounded-lg text-sm">
+        <select name="invoice_id" required class="px-3 py-2 border border-gray-200 rounded-xl text-sm">
           <option value="">Select invoice...</option>
           <% invoices.forEach(function(i) { %>
             <option value="<%= i.id %>">#<%= i.id %> - <%= i.first_name %> <%= i.last_name %> ($<%= Number(i.total_amount - (i.total_paid || 0)).toFixed(2) %> remaining)</option>
@@ -20,11 +23,11 @@
       </div>
       <div>
         <label class="block text-xs text-gray-600 mb-1">Amount ($) *</label>
-        <input type="number" step="0.01" name="amount" required class="px-3 py-2 border rounded-lg text-sm w-32">
+        <input type="number" step="0.01" name="amount" required class="px-3 py-2 border border-gray-200 rounded-xl text-sm w-32">
       </div>
       <div>
         <label class="block text-xs text-gray-600 mb-1">Method *</label>
-        <select name="method" required class="px-3 py-2 border rounded-lg text-sm">
+        <select name="method" required class="px-3 py-2 border border-gray-200 rounded-xl text-sm">
           <option value="cash">Cash</option>
           <option value="card">Card</option>
           <option value="transfer">Transfer</option>
@@ -33,41 +36,41 @@
       </div>
       <div>
         <label class="block text-xs text-gray-600 mb-1">Notes</label>
-        <input type="text" name="notes" class="px-3 py-2 border rounded-lg text-sm">
+        <input type="text" name="notes" class="px-3 py-2 border border-gray-200 rounded-xl text-sm">
       </div>
-      <button class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700">Record Payment</button>
+      <button class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-sm hover:bg-emerald-700">Record Payment</button>
     </form>
   </div>
 
   <!-- Payments Table -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50/80">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Method</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Invoice Status</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Patient</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Invoice</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Method</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Invoice Status</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100">
           <% payments.forEach(function(p) { %>
-            <tr class="hover:bg-gray-50">
+            <tr class="hover:bg-indigo-50/30 transition">
               <td class="px-6 py-4 text-gray-500"><%= p.id %></td>
               <td class="px-6 py-4 font-medium"><%= p.first_name %> <%= p.last_name %></td>
               <td class="px-6 py-4">#<%= p.invoice_id %></td>
-              <td class="px-6 py-4 text-green-600 font-medium">$<%= Number(p.amount).toFixed(2) %></td>
+              <td class="px-6 py-4 text-emerald-600 font-medium">$<%= Number(p.amount).toFixed(2) %></td>
               <td class="px-6 py-4 capitalize"><%= p.method %></td>
               <td class="px-6 py-4"><%= p.payment_date ? new Date(p.payment_date).toLocaleDateString() : '-' %></td>
               <td class="px-6 py-4">
-                <span class="px-2 py-1 rounded-full text-xs font-medium
-                  <%= p.invoice_status === 'paid' ? 'bg-green-100 text-green-700' :
-                     p.invoice_status === 'issued' ? 'bg-blue-100 text-blue-700' :
-                     'bg-yellow-100 text-yellow-700' %>"><%= p.invoice_status %></span>
+                <span class="px-2 py-1 rounded-lg text-xs font-medium
+                  <%= p.invoice_status === 'paid' ? 'bg-emerald-50 text-emerald-700' :
+                     p.invoice_status === 'issued' ? 'bg-indigo-50 text-indigo-700' :
+                     'bg-amber-50 text-amber-700' %>"><%= p.invoice_status %></span>
               </td>
             </tr>
           <% }) %>

@@ -1,50 +1,50 @@
 <div>
   <div class="flex items-center justify-between mb-6">
     <div>
-      <h1 class="text-2xl font-bold text-gray-800">Patients</h1>
+      <h1 class="text-2xl font-bold text-gray-900">Patients</h1>
       <p class="text-sm text-gray-500 mt-1">Data from <span class="sql-badge badge-view">VIEW</span> vw_PatientOverview</p>
     </div>
-    <a href="/patients/new" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium">+ Add Patient</a>
+    <a href="/patients/new" class="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition text-sm font-medium">+ Add Patient</a>
   </div>
 
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    <div class="p-4 border-b border-gray-200">
-      <input type="text" id="searchInput" placeholder="Search patients..." class="w-full md:w-80 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" onkeyup="filterTable()">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-4 border-b border-gray-100">
+      <input type="text" id="searchInput" placeholder="Search patients..." class="w-full md:w-80 px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" onkeyup="filterTable()">
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm" id="dataTable">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50/80">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dentist</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Alerts</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Name</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Dentist</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Phone</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Alerts</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100">
           <% patients.forEach(function(p) { %>
-            <tr class="hover:bg-gray-50">
+            <tr class="hover:bg-indigo-50/30 transition">
               <td class="px-6 py-4 text-gray-500"><%= p.patient_id || p.id %></td>
               <td class="px-6 py-4 font-medium text-gray-800">
-                <a href="/patients/<%= p.patient_id || p.id %>" class="hover:text-blue-600"><%= p.patient_name || (p.first_name + ' ' + p.last_name) %></a>
+                <a href="/patients/<%= p.patient_id || p.id %>" class="hover:text-indigo-600"><%= p.patient_name || (p.first_name + ' ' + p.last_name) %></a>
               </td>
               <td class="px-6 py-4"><%= p.dentist_name || '-' %></td>
               <td class="px-6 py-4"><%= p.phone || '-' %></td>
               <td class="px-6 py-4">
                 <% if ((p.medical_alert_count || p.alert_count || 0) > 0) { %>
-                  <span class="px-2 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium"><%= p.medical_alert_count || p.alert_count %> alert(s)</span>
+                  <span class="px-2 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-medium"><%= p.medical_alert_count || p.alert_count %> alert(s)</span>
                 <% } else { %>
                   <span class="text-gray-400">None</span>
                 <% } %>
               </td>
               <td class="px-6 py-4">
                 <div class="flex gap-2">
-                  <a href="/patients/<%= p.patient_id || p.id %>" class="px-3 py-1 text-xs bg-blue-50 text-blue-600 rounded hover:bg-blue-100">View</a>
+                  <a href="/patients/<%= p.patient_id || p.id %>" class="px-3 py-1 text-xs bg-indigo-50 text-indigo-600 rounded hover:bg-indigo-100">View</a>
                   <a href="/patients/<%= p.patient_id || p.id %>/edit" class="px-3 py-1 text-xs bg-gray-50 text-gray-600 rounded hover:bg-gray-100">Edit</a>
                   <form action="/patients/<%= p.patient_id || p.id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this patient? This will trigger trg_LogPatientDeletion.')">
-                    <button class="px-3 py-1 text-xs bg-red-50 text-red-600 rounded hover:bg-red-100">Delete</button>
+                    <button class="px-3 py-1 text-xs bg-rose-50 text-rose-600 rounded hover:bg-rose-100">Delete</button>
                   </form>
                 </div>
               </td>

@@ -1,33 +1,33 @@
 <div>
-  <a href="/reports" class="text-sm text-blue-600 hover:underline">&larr; Back to Reports</a>
-  <h1 class="text-2xl font-bold text-gray-800 mt-2 mb-2">Monthly Report</h1>
+  <a href="/reports" class="text-sm text-indigo-600 hover:underline">&larr; Back to Reports</a>
+  <h1 class="text-2xl font-bold text-gray-900 mt-2 mb-2">Monthly Report</h1>
   <p class="text-sm text-gray-500 mb-6">Uses <span class="sql-badge badge-procedure">STORED PROCEDURE</span> sp_MonthlyReport (3 result sets)</p>
 
   <!-- Date Selector -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-6">
     <form action="/reports/monthly" method="GET" class="flex gap-3 items-end">
       <div>
         <label class="block text-xs text-gray-600 mb-1">Year</label>
-        <input type="number" name="year" value="<%= year %>" class="px-3 py-2 border rounded-lg text-sm w-24">
+        <input type="number" name="year" value="<%= year %>" class="px-3 py-2 border border-gray-200 rounded-xl text-sm w-24">
       </div>
       <div>
         <label class="block text-xs text-gray-600 mb-1">Month</label>
-        <select name="month" class="px-3 py-2 border rounded-lg text-sm">
+        <select name="month" class="px-3 py-2 border border-gray-200 rounded-xl text-sm">
           <% for (let m = 1; m <= 12; m++) { %>
             <option value="<%= m %>" <%= month === m ? 'selected' : '' %>><%= new Date(2000, m-1).toLocaleString('en', {month: 'long'}) %></option>
           <% } %>
         </select>
       </div>
-      <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Generate</button>
+      <button class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm hover:bg-indigo-700">Generate</button>
     </form>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
     <!-- Revenue Summary (Result Set 1) -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <h3 class="text-sm font-medium text-gray-500 uppercase mb-2">Result Set 1: Revenue</h3>
       <% if (revenue.length > 0) { %>
-        <p class="text-3xl font-bold text-green-600">$<%= Number(revenue[0].total_revenue || revenue[0].total || 0).toFixed(2) %></p>
+        <p class="text-3xl font-bold text-emerald-600">$<%= Number(revenue[0].total_revenue || revenue[0].total || 0).toFixed(2) %></p>
         <p class="text-sm text-gray-500 mt-1"><%= revenue[0].payment_count || revenue[0].count || 0 %> payments</p>
       <% } else { %>
         <p class="text-gray-400">No data</p>
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Appointments (Result Set 2) -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <h3 class="text-sm font-medium text-gray-500 uppercase mb-2">Result Set 2: Appointments</h3>
       <% if (appointments.length > 0) { %>
         <div class="space-y-2 text-sm">
@@ -52,10 +52,10 @@
     </div>
 
     <!-- New Patients (Result Set 3) -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <h3 class="text-sm font-medium text-gray-500 uppercase mb-2">Result Set 3: New Patients</h3>
       <% if (newPatients.length > 0) { %>
-        <p class="text-3xl font-bold text-blue-600"><%= newPatients[0].new_patient_count || newPatients[0].count || 0 %></p>
+        <p class="text-3xl font-bold text-indigo-600"><%= newPatients[0].new_patient_count || newPatients[0].count || 0 %></p>
         <p class="text-sm text-gray-500 mt-1">new patients this month</p>
       <% } else { %>
         <p class="text-gray-400">No data</p>

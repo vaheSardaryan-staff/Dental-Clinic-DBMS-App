@@ -1,16 +1,16 @@
 <div>
-  <h1 class="text-2xl font-bold text-gray-800 mb-2">Triggers Showcase</h1>
+  <h1 class="text-2xl font-bold text-gray-900 mb-2">Triggers Showcase</h1>
   <p class="text-sm text-gray-500 mb-6">All 4 database triggers and how they work</p>
 
   <!-- Trigger List -->
   <div class="space-y-6 mb-8">
     <% triggers.forEach(function(t, idx) { %>
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div class="px-6 py-4 bg-orange-50 border-b border-orange-200 flex items-center gap-3">
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-6 py-5 bg-amber-50 border-b border-amber-200 flex items-center gap-3">
           <span class="sql-badge badge-trigger">TRIGGER</span>
           <h3 class="text-lg font-semibold text-gray-800"><%= t.trigger_name %></h3>
           <span class="text-sm text-gray-500">on <strong><%= t.table_name %></strong></span>
-          <span class="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded capitalize"><%= t.trigger_type %></span>
+          <span class="text-xs text-amber-700 bg-amber-100 px-2 py-0.5 rounded-lg capitalize"><%= t.trigger_type %></span>
         </div>
         <div class="p-6">
           <pre class="!bg-[#1e1e2e] !rounded-lg !text-sm !p-4 overflow-x-auto max-h-64"><code class="language-sql"><%= t.trigger_sql %></code></pre>
@@ -20,56 +20,56 @@
   </div>
 
   <!-- How to Demo -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
     <h3 class="text-lg font-semibold text-gray-800 mb-4">How to Demo Each Trigger</h3>
     <div class="space-y-4 text-sm">
       <div class="flex gap-3">
-        <span class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+        <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
         <div>
-          <strong>trg_UpdateInvoiceStatus:</strong> Go to <a href="/billing/payments" class="text-blue-600 hover:underline">Payments</a> and add a payment that covers the full invoice amount. Watch the invoice status change from 'issued' to 'paid' automatically.
+          <strong>trg_UpdateInvoiceStatus:</strong> Go to <a href="/billing/payments" class="text-indigo-600 hover:underline">Payments</a> and add a payment that covers the full invoice amount. Watch the invoice status change from 'issued' to 'paid' automatically.
         </div>
       </div>
       <div class="flex gap-3">
-        <span class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+        <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
         <div>
-          <strong>trg_PreventPastAppointment:</strong> Go to <a href="/appointments/new" class="text-blue-600 hover:underline">Book Appointment</a> and check the "Demo: Test past date" checkbox. The trigger will block the insert.
+          <strong>trg_PreventPastAppointment:</strong> Go to <a href="/appointments/new" class="text-indigo-600 hover:underline">Book Appointment</a> and check the "Demo: Test past date" checkbox. The trigger will block the insert.
         </div>
       </div>
       <div class="flex gap-3">
-        <span class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+        <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
         <div>
-          <strong>trg_LogPatientDeletion:</strong> Go to <a href="/patients" class="text-blue-600 hover:underline">Patients</a> and delete a patient. Check the audit log below.
+          <strong>trg_LogPatientDeletion:</strong> Go to <a href="/patients" class="text-indigo-600 hover:underline">Patients</a> and delete a patient. Check the audit log below.
         </div>
       </div>
       <div class="flex gap-3">
-        <span class="w-6 h-6 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
+        <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
         <div>
-          <strong>trg_AutoSetDueDate:</strong> Go to <a href="/billing/invoices" class="text-blue-600 hover:underline">Invoices</a> and generate a new invoice. The due_date will be auto-set to 14 days after the issued date.
+          <strong>trg_AutoSetDueDate:</strong> Go to <a href="/billing/invoices" class="text-indigo-600 hover:underline">Invoices</a> and generate a new invoice. The due_date will be auto-set to 14 days after the issued date.
         </div>
       </div>
     </div>
   </div>
 
   <!-- Audit Log -->
-  <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-    <div class="px-6 py-4 border-b border-gray-200">
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="px-6 py-5 border-b border-gray-100">
       <h3 class="text-lg font-semibold text-gray-800">Patient Audit Log</h3>
       <p class="text-sm text-gray-500">Populated by trg_LogPatientDeletion</p>
     </div>
     <div class="overflow-x-auto">
       <table class="w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50/80">
           <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deleted By</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deleted At</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">ID</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Patient ID</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Name</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Deleted By</th>
+            <th class="px-6 py-3 text-left text-[11px] font-semibold text-gray-500 uppercase tracking-wider">Deleted At</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-100">
           <% auditLog.forEach(function(a) { %>
-            <tr class="hover:bg-gray-50">
+            <tr class="hover:bg-indigo-50/30 transition">
               <td class="px-6 py-4"><%= a.id %></td>
               <td class="px-6 py-4"><%= a.patient_id %></td>
               <td class="px-6 py-4 font-medium"><%= a.first_name %> <%= a.last_name %></td>
